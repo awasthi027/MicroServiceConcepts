@@ -3,21 +3,25 @@ package com.ashi.learning;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.RestTemplate;
 
 import com.ashi.learning.entities.Product;
 
+
 @SpringBootTest
 class ProductRestTemplateTestCases {
 
+	private static final Logger logger = LoggerFactory.getLogger(ProductRestTemplateTestCases.class);
 	@Value("${mysql.services.url}")
 	private String baseURL;
 	
 	@Test
 	void testGetProduct() {
-		System.out.println("BaseURL======" + baseURL);
+		logger.info("BaseURL======" + baseURL);
 	  RestTemplate template = new RestTemplate();
 	  Product product = template.getForObject(baseURL + "product/1", Product.class);
 	  assertNotNull(product);
