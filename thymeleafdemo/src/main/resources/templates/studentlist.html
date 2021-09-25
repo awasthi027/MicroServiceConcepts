@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>Getting info student object </title>
+</head>
+<body>
+<h1> Student Details: </h1>
+<table>
+    <tr>
+    <th>Name</th>
+    <th>Score</th>
+    </tr>
+    <tr th:each="student:${students}">
+    <td th:text = "${student.name}"></td> 
+    <td th:text = "${student.score}"></td> 
+    </tr>
+</body>
+</html>
