@@ -20,16 +20,6 @@ class ProductRestTemplateTestCases {
 	private String baseURL;
 	
 	@Test
-	void testGetProduct() {
-		logger.info("BaseURL======" + baseURL);
-	  RestTemplate template = new RestTemplate();
-	  Product product = template.getForObject(baseURL + "product/1", Product.class);
-	  assertNotNull(product);
-	  assertEquals("Ceiling Fan", product.getName());
-		
-	}
-	
-	@Test
 	void createProduct() {
 		RestTemplate template = new RestTemplate();
 		Product createProduct = new Product();
@@ -42,6 +32,16 @@ class ProductRestTemplateTestCases {
 	   assertNotNull(newProduct);
 	   assertNotNull(newProduct.getId());
 	   assertEquals("Motor Bike", newProduct.getName());
+	}
+	
+	@Test
+	void testGetProduct() {
+		logger.info("BaseURL======" + baseURL);
+	  RestTemplate template = new RestTemplate();
+	  Product product = template.getForObject(baseURL + "product/1", Product.class);
+	  assertNotNull(product);
+	  assertEquals("Ceiling Fan", product.getName());
+		
 	}
 	
 	@Test

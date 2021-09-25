@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,11 +26,14 @@ public class ProductController {
 	@Autowired
 	private ProductRepo productRepo;
 
+	
 	@GetMapping(path = "/v1/products/")
 	public List<Product> findProducts() {
 		return productRepo.findAll();
 	}
 
+	@Transactional(readOnly = true)
+	@Cacheable("product-cache")
 	@GetMapping(path = "/v1/product/{id}")
 	public Product findProduct(@PathVariable("id") int id) {
 		return productRepo.findById(id).get();
@@ -52,6 +58,7 @@ public class ProductController {
 		return null;
 	}
 	
+	@CacheEvict("product-cache")
 	@DeleteMapping(path = "/v1/deleteproduct/{id}")
 	public void deleteProudct(@PathVariable int id) {
 		 productRepo.deleteById(id);
