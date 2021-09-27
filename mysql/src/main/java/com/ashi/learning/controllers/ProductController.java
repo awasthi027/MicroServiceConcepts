@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ashi.learning.entities.Product;
 import com.ashi.learning.repos.ProductRepo;
+import javax.validation.Valid;
 
 @RestController
 public class ProductController {
@@ -40,7 +41,7 @@ public class ProductController {
 	}
 
 	@PostMapping(path = "/v1/createproduct")
-	public Product createProduct(@RequestBody Product product) {
+	public Product createProduct(@Valid @RequestBody Product product) {
 		return productRepo.save(product);
 	}
 

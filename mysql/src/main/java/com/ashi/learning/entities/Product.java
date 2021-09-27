@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,8 +32,12 @@ public class Product implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
     private int id;
+	
+	@NotNull
     private String name;
+	@Size(max = 100)
     private String description;
+	@Min(value = 1)
     private int price;
     
 }
