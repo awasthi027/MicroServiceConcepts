@@ -28,7 +28,7 @@ public class BatchConfig {
 	
 	@Bean
 	public Step step() {
-	 return sbf.get("Step1").<String,String>chunk(2)
+	 return sbf.get("Step1").<String,String>chunk(1)
 			 .reader(reader())
 			 .writer(writer())
 			 .processor(processor())
