@@ -1,9 +1,8 @@
 package com.ashi.learning.security;
 
-import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 			throw new UsernameNotFoundException("User not found for email" + username);
 		}
 		System.out.println("=====================" + user.toString());
-		return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(), (Collection<? extends GrantedAuthority>) user.getRoles());
+		return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(), user.getRoles());
 	}
 
 }

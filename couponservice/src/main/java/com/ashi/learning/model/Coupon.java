@@ -61,4 +61,10 @@ public class Coupon {
 		this.exp_date = exp_date;
 	}
 
+	@Override
+	public String toString() {
+		return "Coupon [id=" + id + ", code=" + code + ", discount=" + discount + ", exp_date=" + exp_date + "]";
+	}
+	
+
 }
