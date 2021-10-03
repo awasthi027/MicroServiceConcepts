@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.ashi.learning.security.UserDetailsServiceImpl;
 
-@Configuration
+//@Configuration
 public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
