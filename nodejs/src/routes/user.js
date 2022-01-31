@@ -4,19 +4,30 @@ const Joi = require("joi")
 const getUserInfo =  {
       method: 'GET',
       path: '/user/{name}',
-      handler: function (request, reply) {
-      const name = request.params.name ? request.params.name : 'stranger';
-      return {message:'Hello ' + name};
-       }
+        options: {
+               description: 'Get books list',
+               notes: 'Returns an array of books',
+               tags: ['api'],
+               handler: function (request, reply) {
+                    const name = request.params.name ? request.params.name : 'stranger';
+                    return {message:'Hello ' + name};
+                     }
+           }
 }
 
 const greetUser =  {
      method: 'GET',
       path: '/welcome/{id}',
-      handler: function (request, reply) {
-      const id = request.params.id ? request.params.id : 'stranger';
-      return { message:'return second cart ' + id };
-         }
+       options: {
+                  description: 'Get books list',
+                    notes: 'Returns an array of books',
+                    tags: ['api'],
+                    handler: function (request, reply) {
+                        const id = request.params.id ? request.params.id : 'stranger';
+                        return { message:'return second cart ' + id };
+                           }
+                }
+
     }
 
   const signUpUser = {
@@ -31,12 +42,13 @@ const greetUser =  {
           options: {
            validate: {
                 payload: Joi.object({
-                      username: Joi.string().min(1).max(20),
+                      username: Joi.string().min(1).max(20).messages({
+                        'string.mim' : `"username" Min length of username name is 1`,
+                        'string.max' : `"username" Max length of username is 20`,
+                          }),
                       password: Joi.string().min(7).max(10).messages({
-
                         'string.mim' : `"password" Min length of password is 7`,
                         'string.max' : `"password" Max length of password is 10`,
-
                         })
                    }),
                    failAction: async (request, h, err) => {
@@ -50,6 +62,7 @@ const greetUser =  {
              parse: true,
              allow: ['application/json','multipart/form-data']
            }
+
          }
   }
 
