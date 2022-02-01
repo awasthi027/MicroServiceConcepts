@@ -29,7 +29,13 @@ const todoInfo =  {
                             '401': { 'description': 'Unauthorized error' },
                             '403': { 'description': 'forbidden' }
                         }
-                    }
+                    },
+                   'hapi-rate-limitor': {
+                            max: 5,              // a maximum of 5 requests
+                            duration: 60 * 1000, // per minute
+                            enabled: false       // but it’s actually not enabled ;-)
+                     }
+
            }
     },
   }
@@ -44,8 +50,8 @@ const createTODO =  {
         tags: ['api'], // ADD THIS TAG
         validate: {
             payload: Joi.object().keys({
-                   title: Joi.string().required().description('Topic Title').example('Java Topic on background service'),
-                   desc: Joi.string().required().description('Topic description').example('Details information about the java topic'),
+                   title: Joi.string().required().description('the id for the todo item').example('10'),
+                   desc: Joi.string().required().description('the id for the todo item').example('10'),
               }),
         },
          plugins: {
@@ -61,7 +67,7 @@ const createTODO =  {
                             '403': { 'description': 'forbidden' }
                         }
                     }
-           }
+                 }
     },
   }
 module.exports = [

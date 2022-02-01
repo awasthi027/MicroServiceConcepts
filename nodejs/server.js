@@ -49,6 +49,20 @@ const server = new Hapi.Server({
             options: swaggerOptions
         }
     ]);
+    // Register rate limiter plugins
+    await server.register({
+      plugin: require('hapi-rate-limitor'),
+      options: {
+        redis: {
+          port: 6379,
+          host: '127.0.0.1'
+        },
+        namespace: 'hapi-rate-limitor',
+        max: 10,             // a maximum of 60 requests
+        duration: 60 * 1000, // per minute (the value is in milliseconds)
+        enabled: true ,
+      }
+    })
 
     try {
         await server.start();
