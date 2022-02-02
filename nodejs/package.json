@@ -12,6 +12,8 @@
     "@hapi/hapi": "^20.2.1",
     "@hapi/inert": "^6.0.5",
     "@hapi/vision": "^6.1.0",
+    "bcrypt": "^5.0.1",
+    "hapi-auth-basic": "^5.0.0",
     "hapi-rate-limitor": "^3.1.1",
     "hapi-router": "^5.1.0",
     "hapi-swagger": "^14.2.4",

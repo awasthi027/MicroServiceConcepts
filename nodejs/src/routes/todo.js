@@ -7,6 +7,7 @@ const todoInfo =  {
     path: '/todo/{id}/',
     handler: handlers.get,
     options: {
+        auth: 'simple',
         description: 'Get todo',
         notes: 'Returns a todo item by the id passed in the path',
         tags: ['api'], // ADD THIS TAG
@@ -31,9 +32,9 @@ const todoInfo =  {
                         }
                     },
                    'hapi-rate-limitor': {
-                            max: 5,              // a maximum of 5 requests
+                            max: 15,              // a maximum of 5 requests
                             duration: 60 * 1000, // per minute
-                            enabled: false       // but it’s actually not enabled ;-)
+                            enabled: true       // but it’s actually not enabled ;-)
                      }
 
            }
@@ -45,6 +46,7 @@ const createTODO =  {
     path: '/todo/',
     handler: handlers.createTODO,
     options: {
+        auth: 'simple',
         description: 'Create todo record.',
         notes: 'Returns created record and status',
         tags: ['api'], // ADD THIS TAG
