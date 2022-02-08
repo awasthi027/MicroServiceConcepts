@@ -2,13 +2,13 @@
 
 const Hapi = require('@hapi/hapi');
 const mongoose = require('mongoose');
-const DogController =  require('./src/controllers/dog');
 const MongoDBUrl = 'mongodb://localhost:27017/dogapi';
 const Joi = require('joi');
-
+const Boom = require('boom');
 const BasicAuth = require('hapi-auth-basic')
 const Bcrypt = require('bcrypt')
 
+const Jwt = require('@hapi/jwt');
 // swagger depdendencies
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
@@ -25,7 +25,6 @@ var Routes = require('./src/routes');
              schemes: ['http','https'],
   };
 
-
 // hardcoded users object … just for illustration purposes
 // API dummy authentication for username: john and password: secret
  const users = {
@@ -37,7 +36,7 @@ var Routes = require('./src/routes');
    }
  };
    // validation function used for hapi-auth-basic
-   const validate = async (request, username, password, h) => {
+  const validate = async (request, username, password, h) => {
 
    if (username === 'help') {
        return { response: h.redirect('https://hapijs.com/help') };     // custom response
@@ -54,12 +53,14 @@ var Routes = require('./src/routes');
    return { isValid, credentials };
    };
 
+
+   // bring your own validation function
+
 const main = async () => {
     const server = Hapi.server({
     port: 3000,
     host: 'localhost'
      });
-
 await server.register([
     Inert,
     Vision, {
@@ -77,23 +78,55 @@ await server.register([
              host: '127.0.0.1'
            },
            namespace: 'hapi-rate-limitor',
-           max: 10,             // a maximum of 60 requests
+           userAttribute: 'id',
+           userLimitAttribute: 'rateLimit',
+           max: 20,             // a maximum of 60 requests
            duration: 60 * 1000, // per minute (the value is in milliseconds)
-           enabled: true ,
-           pathLimit: true
+
          }
        })
+
+    await server.register(Jwt);
+    server.auth.strategy('my_jwt_strategy', 'jwt', {
+        keys: 'some_shared_secret',
+        verify: {
+                    aud: 'urn:audience:test',
+                    iss: 'urn:issuer:test',
+                    sub: false,
+                    nbf: true,
+                    exp: true,
+                    maxAgeSec: 14400, // 4 hours
+                    timeSkewSec: 15
+                },
+                validate: (artifacts, request, h) => {
+                    return {
+                        isValid: true,
+                        credentials: { user: artifacts.decoded.payload.user }
+                    };
+                }
+    });
+    // Set the strategy
+    server.auth.default('my_jwt_strategy');
+
     await server.register(require('hapi-auth-basic'));
     server.auth.strategy('simple', 'basic', { validate });
-    server.auth.default('simple');
+
     await server.start();
     server.route(Routes);
     return server;
 };
 
 main()
-.then((server) => console.log(`Server listening on ${server.info.uri}`))
-.catch((err) => {
+.then((server) => {
+// Once started, connect to Mongo through Mongoose
+  mongoose.connect(MongoDBUrl, {}, (err) => {
+    if (err) {
+      throw err;
+    }
+  });
+console.log(`Server listening on ${server.info.uri}`)
+
+}).catch((err) => {
     console.error(err);
     process.exit(1);
 })

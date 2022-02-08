@@ -1,4 +1,4 @@
-var handlers = require('../controllers/todohandler');
+var handlers = require('../services/todohandler');
 const Joi = require("joi");
 
 
@@ -32,7 +32,7 @@ const todoInfo =  {
                         }
                     },
                    'hapi-rate-limitor': {
-                            max: 15,              // a maximum of 5 requests
+                            max: 50,              // a maximum of 5 requests
                             duration: 60 * 1000, // per minute
                             enabled: true       // but it’s actually not enabled ;-)
                      }
