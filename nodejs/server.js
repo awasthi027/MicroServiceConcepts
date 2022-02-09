@@ -15,7 +15,7 @@ const Vision = require('@hapi/vision');
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
 
-var Routes = require('./src/routes');
+var Routes = require('./src/routes_apis');
 
  const swaggerOptions = {
         info: {
