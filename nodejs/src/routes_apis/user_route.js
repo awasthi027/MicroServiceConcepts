@@ -3,10 +3,16 @@ const Joi = require("joi")
 
 var auth = require('../auth/JWT')
 var userService = require('../services/userservice')
+let nconf = require('../lib/config');
+let signUpPath = nconf.get('route:myaccount:signup')
+let signInPath = nconf.get('route:myaccount:signin')
+let userListPath = nconf.get('route:myaccount:userlist')
+let userProfilePath = nconf.get('route:myaccount:userprofile')
+let deleteUserPath = nconf.get('route:myaccount:deleteuser')
 
  const signUpUser = {
       method: 'POST',
-      path: '/user/signup',
+      path: signUpPath,
       handler: userService.createUser,
           options: {
            auth: false,
@@ -44,7 +50,7 @@ var userService = require('../services/userservice')
 
    const signInUser = {
         method: 'POST',
-        path: '/user/signin',
+        path: signInPath,
         handler: userService.signInUser,
             options: {
              auth: false,
@@ -73,7 +79,7 @@ var userService = require('../services/userservice')
 
 const listUsers =  {
       method: 'GET',
-      path: '/user/list',
+      path: userListPath,
       handler:  userService.users,
         options: {
                auth: {
@@ -92,7 +98,7 @@ const listUsers =  {
 }
 const userProfile =  {
       method: 'GET',
-      path: '/user/profile/{username}',
+      path: userProfilePath,
       handler:  userService.userProfile,
         options: {
                auth: {
@@ -114,9 +120,9 @@ const userProfile =  {
            }
 }
 
-const deleteUserPath =  {
+const deleteUser =  {
       method: 'DELETE',
-      path: '/delete/user/{username}',
+      path: deleteUserPath,
       handler:  userService.deleteUser,
         options: {
                auth: {
@@ -155,6 +161,6 @@ module.exports = [
    signUpUser,
    signInUser,
    listUsers,
-   deleteUserPath,
+   deleteUser,
    userProfile,
 ];

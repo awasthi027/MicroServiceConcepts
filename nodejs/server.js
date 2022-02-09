@@ -15,14 +15,17 @@ const Vision = require('@hapi/vision');
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
 
-var Routes = require('./src/routes_apis');
+let Routes = require('./src/routes_apis');
+
+let nconf = require('./src/lib/config');
 
  const swaggerOptions = {
+
         info: {
                 title: 'Test API Documentation',
                 version: Pack.version,
             },
-             schemes: ['http','https'],
+            schemes: nconf.get('server:schema'),
   };
 
 // hardcoded users object … just for illustration purposes
@@ -58,9 +61,10 @@ var Routes = require('./src/routes_apis');
 
 const main = async () => {
     const server = Hapi.server({
-    port: 3000,
-    host: 'localhost'
+    port: nconf.get('server:port'),
+    host: nconf.get('server:host')
      });
+
 await server.register([
     Inert,
     Vision, {

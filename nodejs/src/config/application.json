@@ -1,0 +1,21 @@
+{
+ "server": {
+    "host": "localhost",
+    "port": "3000",
+    "schema": ["http","https"],
+    "timeout": "60000",
+    "keepAliveTimeout": "60000"
+  },
+  "route": {
+     "myaccount": {
+       "signup": "/user/signup",
+       "signin" : "/user/signin",
+       "userlist" : "/user/list",
+       "userprofile" : "/user/profile/{username}",
+       "deleteuser" : "/delete/user/{username}"
+     }
+  },
+    "jwtScopes": {
+      "users": "userprofile, createtopic"
+    }
+}
