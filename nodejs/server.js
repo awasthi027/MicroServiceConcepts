@@ -16,11 +16,11 @@ const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
 
 let Routes = require('./src/routes_apis');
+let plugins = require('./src/plugins');
 
 let nconf = require('./src/lib/config');
 
  const swaggerOptions = {
-
         info: {
                 title: 'Test API Documentation',
                 version: Pack.version,
@@ -73,22 +73,8 @@ await server.register([
     }
 ]);
 
-   // Register rate limiter plugins
-      await server.register({
-         plugin: require('hapi-rate-limitor'),
-         options: {
-           redis: {
-             port: 6379,
-             host: '127.0.0.1'
-           },
-           namespace: 'hapi-rate-limitor',
-           userAttribute: 'id',
-           userLimitAttribute: 'rateLimit',
-           max: 20,             // a maximum of 60 requests
-           duration: 60 * 1000, // per minute (the value is in milliseconds)
-
-         }
-       })
+   // Register  plugins
+    await server.register(plugins)
 
     await server.register(Jwt);
     server.auth.strategy('my_jwt_strategy', 'jwt', {

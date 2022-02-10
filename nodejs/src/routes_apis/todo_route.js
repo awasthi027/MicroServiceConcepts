@@ -32,7 +32,7 @@ const todoInfo =  {
                         }
                     },
                    'hapi-rate-limitor': {
-                            max: 50,              // a maximum of 5 requests
+                            max: 100,              // a maximum of 5 requests
                             duration: 60 * 1000, // per minute
                             enabled: true       // but it’s actually not enabled ;-)
                      }
